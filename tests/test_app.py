@@ -59,6 +59,15 @@ class FlaskMigrationTests(unittest.TestCase):
     def test_public_files_are_served_but_python_source_is_not(self):
         self.assert_request_status("/", 200)
         self.assert_request_status("/js/login.js", 200)
+        for banner in (
+            "jamal poster copy.png",
+            "poster_body.png",
+            "poster_cologne.png",
+            "poster_face.png",
+            "poster_hair.png",
+            "poster_hairstyle.png",
+        ):
+            self.assert_request_status(f"/Images/{banner}", 200)
         self.assert_request_status("/app.py", 404)
 
     def test_admin_pages_and_endpoints_require_login(self):
