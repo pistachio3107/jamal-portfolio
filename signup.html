@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jamal | Sign Up</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #d4af37;
+      --black: #000;
+      --white: #fff;
+      --dark-gray: #111;
+      --gray: #aaa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('Images/jamal hitam.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(17, 17, 17, 0.95);
+      border-bottom: 1px solid var(--gold);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .auth-container {
+      background-color: rgba(17, 17, 17, 0.95);
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--gold);
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gray);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(170, 170, 170, 0.2);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--gold);
+      color: var(--black);
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn:hover {
+      background-color: #e6c555;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      background-color: var(--gray);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .message.error {
+      background-color: rgba(255, 68, 68, 0.1);
+      color: #ff4444;
+      display: block;
+    }
+
+    .message.success {
+      background-color: rgba(0, 200, 83, 0.1);
+      color: #00c853;
+      display: block;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .form-footer a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .form-footer a:hover {
+      color: #e6c555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>JAMAL</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="auth-container">
+      <h2 style="color: var(--gold); margin-bottom: 30px; text-align: center;">Create Account</h2>
+      <div id="message" class="message"></div>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn" id="signupBtn">Sign Up</button>
+      </form>
+      <div class="form-footer">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/signup.js"></script>
+</body>
+</html> 

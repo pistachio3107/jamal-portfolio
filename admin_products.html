@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Products</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000;
+            --white: #fff;
+            --dark-gray: #111;
+            --gray: #aaa;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        body {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 0;
+            height: 100vh;
+            margin: 0;
+        }
+        /* Combined Header and Menubar */
+        .header-container {
+            display: flex;
+            flex-direction: row; /* Change to row to align side by side */
+            justify-content: space-between; /* Distribute space between logo and menubar */
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--dark-gray);
+            border-bottom: 1px solid var(--gold);
+            z-index: 10;
+        }
+
+        /* Header Section */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--dark-gray);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin: 0;
+        }
+
+        /* Menubar Styling */
+        .menubar {
+            background-color: var(--black);
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end; /* Align buttons to the right */
+            z-index: 1000;
+        }
+
+        .menubar button {
+            background: var(--gold);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            color: var(--black);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 1rem; /* Space between buttons */
+            width: 150px; /* Fixed width for uniform button size */
+            text-align: center;
+        }
+
+        .menubar button:hover {
+            background: var(--black);
+            color: var(--gold);
+        }
+
+        /* Content Section */
+        .content {
+            padding: 5rem 2rem 2rem 2rem; /* Added space for the fixed menubar */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border: 1px solid var(--gray);
+        }
+
+        th {
+            background: var(--black);
+        }
+
+        td img {
+            max-width: 100px;  /* Set maximum width */
+            height: auto;      /* Maintain aspect ratio */
+        }
+    </style>
+    <script>
+        // JavaScript function to load products via AJAX
+        function loadProducts() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/admin_products.py", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("productsTable").innerHTML = xhr.responseText;
+                    document.getElementById("loadProductsButton").style.display = 'none'; // Hide the button after clicking
+                } else if (xhr.readyState === 4 && xhr.status === 401) {
+                    window.location.href = 'admin_login.html';
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+    <!-- Combined Header and Menubar -->
+    <div class="header-container">
+        <header>
+            <div class="logo">
+                <h1>JAMAL</h1>
+            </div>
+        </header>
+
+        <!-- Navigation Menu -->
+        <div class="menubar">
+            <a href="admin_dashboard.html"><button>Dashboard</button></a>
+            <a href="admin_orders.html"><button>Orders</button></a>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Products</h1>
+
+        <!-- Form to call the Python script to load products without reloading the page -->
+        <button id="loadProductsButton" onclick="loadProducts()">Load Products</button>
+
+        <!-- Display the products table -->
+        <div id="productsTable">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+    </div>
+</body>
+</html>

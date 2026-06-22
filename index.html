@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>  <title>Jamal | Grooming Products</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="js/cartManager.js"></script>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --black: #000;
+      --white: #fff;
+      --dark-gray: #111;
+      --gray: #aaa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: var(--dark-gray);
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: var(--gold);
+    }
+
+    .login-btn {
+      padding: 8px 16px;
+      background-color: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      text-decoration: none;
+    }
+
+    .login-btn:hover {
+      background-color: var(--gold);
+      color: var(--black);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: linear-gradient(to right, #000, #1a1a1a);
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: var(--gray);
+    }
+
+    .btn {
+      background-color: var(--gold);
+      color: var(--black);
+      padding: 12px 25px;
+      text-decoration: none;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #e6c555;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 50px 20px;
+      background-color: var(--dark-gray);
+    }
+
+    .feature-box {
+      flex: 1;
+      min-width: 250px;
+      max-width: 300px;
+      background-color: #1a1a1a;
+      padding: 25px;
+      margin: 15px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid var(--gold);
+    }
+
+    .feature-box h3 {
+      margin-bottom: 10px;
+      color: var(--gold);
+    }
+
+    .feature-box p {
+      color: var(--gray);
+    }
+
+    footer {
+      background-color: var(--black);
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+      border-top: 1px solid var(--gold);
+    }
+
+    .slider-container {
+      position: relative;
+      max-width: 100%;
+      width: 90%;  /* Added to control overall width */
+      height: 400px;
+      overflow: hidden;
+      margin: 0 auto 40px auto;  /* Centered the slider */
+      background-color: var(--dark-gray);
+    }
+
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      height: 100%;
+      width: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;  /* Increased padding */
+      display: flex;  /* Added for better centering */
+      justify-content: center;  /* Center horizontally */
+      align-items: center;  /* Center vertically */
+    }
+
+    .slide img {
+      max-width: 90%;  /* Control image width */
+      height: auto;  /* Maintain aspect ratio */
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: var(--white);
+      width: 40px;
+      height: 40px;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-btn:hover {
+      background: rgba(212, 175, 55, 0.7);
+    }
+
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+
+    .dots-container {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dot.active {
+      background: var(--gold);
+    }
+
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cart-btn {
+      position: relative;
+      color: var(--white);
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .cart-btn:hover {
+      color: var(--gold);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--gold);
+      color: var(--black);
+      font-size: 12px;
+      font-weight: bold;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+    }
+
+    .profile-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-btn {
+        background: none;
+        border: none;
+        color: var(--white);
+        cursor: pointer;
+        padding: 8px 15px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s;
+    }
+
+    .profile-btn:hover {
+        color: var(--gold);
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: var(--dark-gray);
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 1;
+        border: 1px solid var(--gold);
+    }
+
+    .dropdown-content a {
+        color: var(--white);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-content a:hover {
+        background-color: var(--black);
+        color: var(--gold);
+    }
+
+    .profile-dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Logout Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--dark-gray);
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      border: 1px solid var(--gold);
+      position: relative;
+    }
+
+    .modal-title {
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .modal-message {
+      color: var(--white);
+      margin-bottom: 25px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .confirm-btn {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+    }
+
+    .confirm-btn:hover {
+      background: #e6c555;
+    }
+
+    .cancel-btn {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--white);
+    }
+
+    .cancel-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>  <header>
+    <div class="logo">
+      <h1>JAMAL</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="cart.html" class="cart-btn" id="cartLink">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <a href="login.html" class="login-btn" id="loginLink">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="slider-container">
+    <div class="slider">
+      <img src="images/jamal poster copy.png" alt="Jamal Main Poster" class="slide">
+      <img src="images/poster_body.png" alt="Body Care Products" class="slide">
+      <img src="images/poster_cologne.png" alt="Cologne Collection" class="slide">
+      <img src="images/poster_face.png" alt="Face Care Products" class="slide">
+      <img src="images/poster_hair.png" alt="Hair Products" class="slide">
+      <img src="images/poster_hairstyle.png" alt="Hairstyle Collection" class="slide">
+    </div>
+    <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+    <div class="dots-container"></div>
+  </div>
+
+  <section class="hero">
+    <h2>Grooming Essentials for the Modern Man</h2>
+    <p>Clean look. Confident style. Designed for you.</p>
+    <button class="btn" id="shopNowBtn">Shop Now</button>
+  </section>
+
+  <section class="features">
+    <div class="feature-box">
+      <h3>Quality Ingredients</h3>
+      <p>Natural oils, no harsh chemicals. Pure confidence.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Refined for Men</h3>
+      <p>Products tailored to your skin, beard, and style.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Trusted by Many</h3>
+      <p>Join the movement of men who groom smartly.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Jamal. Crafted with care and confidence.
+  </footer>
+
+  <div class="modal-overlay" id="logoutModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Confirm Logout</h3>
+      <p class="modal-message">Are you sure you want to log out?</p>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+        <button class="modal-btn confirm-btn" onclick="confirmLogout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("shopNowBtn").addEventListener("click", function () {
+      window.location.href = "products.html";
+    });
+
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const dotsContainer = document.querySelector('.dots-container');
+
+    let currentSlide = 0;
+    const slideCount = slides.length;
+
+    slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+      updateDots();
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slideCount;
+      goToSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+      goToSlide(currentSlide);
+    }
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    setInterval(nextSlide, 5000);    // Initialize cart and user management
+    document.addEventListener('DOMContentLoaded', function() {
+      const userData = JSON.parse(sessionStorage.getItem('user'));
+      const navButtons = document.querySelector('.nav-buttons');
+
+      if (userData && userData.isLoggedIn) {
+        navButtons.innerHTML = `
+          <a href="cart.html" class="cart-btn" id="cartLink">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+          <div class="profile-dropdown">
+            <button class="profile-btn">
+              <i class="fas fa-user"></i>
+              ${userData.username}
+            </button>
+            <div class="dropdown-content">
+              <a href="profile.html">My Profile</a>
+              <a href="#" onclick="logout(); return false;">Logout</a>
+            </div>
+          </div>
+        `;
+      }
+
+      // Initialize cart count
+      CartManager.updateCartCount();
+
+      // Listen for cart updates
+      window.addEventListener('cartUpdate', function() {
+        CartManager.updateCartCount();
+      });
+    });
+
+    // Logout functions
+    function showLogoutModal() {
+      const modal = document.getElementById('logoutModal');
+      modal.style.display = 'flex';
+    }
+
+    function closeLogoutModal() {
+      const modal = document.getElementById('logoutModal');
+      modal.style.display = 'none';
+    }
+
+    function confirmLogout() {
+      // Clear session storage
+      sessionStorage.clear();
+      localStorage.clear();
+      
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }
+
+    // Replace the old logout function with the new one that shows the modal
+    window.logout = function() {
+      showLogoutModal();
+    }
+
+    // Close modal if clicking outside
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('logoutModal');
+      if (event.target === modal) {
+        closeLogoutModal();
+      }
+    });
+  </script>
+</body>
+</html>

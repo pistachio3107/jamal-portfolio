@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Orders</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000;
+            --white: #fff;
+            --dark-gray: #111;
+            --gray: #aaa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 0;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Combined Header and Menubar */
+        header {
+            display: flex;
+            justify-content: space-between;  /* Aligns logo and buttons */
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--dark-gray);
+            border-bottom: 3px solid var(--gold);
+            position: relative;
+            z-index: 10; /* Ensure the logo stays on top of menubar */
+        }
+
+        /* Logo styling */
+        .logo h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin: 0;
+            font-weight: bold;
+            position: relative;
+            z-index: 20; /* Bring the logo in front of the menubar */
+        }
+
+        /* Menubar Styling - Aligning buttons to the right */
+        .menubar {
+            display: flex;
+            gap: 1rem;  /* Space between the buttons */
+            z-index: 5;  /* Menubar stays behind the logo */
+        }
+
+        .menubar button {
+            background: var(--gold);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            color: var(--black);
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 150px;
+            text-align: center;
+        }
+
+        .menubar button:hover {
+            background: var(--black);
+            color: var(--gold);
+        }
+
+        /* Adjusting content below the fixed menubar */
+        .content {
+            padding: 5rem 2rem 2rem 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border: 1px solid var(--gray);
+        }
+
+        th {
+            background: var(--black);
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+            padding: 0.5rem;
+            width: 300px;
+            font-size: 1.1rem;
+            background: var(--dark-gray);
+            border: 1px solid var(--gray);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Combined Header and Menubar -->
+    <header>
+        <!-- Logo -->
+        <div class="logo">
+            <h1>JAMAL</h1>
+        </div>
+
+        <!-- Menubar with Dashboard and Products buttons -->
+        <div class="menubar">
+            <a href="admin_dashboard.html"><button>Dashboard</button></a>
+            <a href="admin_products.html"><button>Products</button></a>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Orders</h1>
+
+        <!-- Search Bar to search by name -->
+        <input type="text" id="search" class="search-bar" placeholder="Search by name" onkeyup="searchOrders()">
+
+        <hr>
+
+        <!-- Display the orders table -->
+        <h2>Existing Orders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTable">
+                <!-- Orders will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to search orders based on customer name
+        function searchOrders() {
+            var input = document.getElementById("search");
+            var filter = input.value.toLowerCase();
+            var rows = document.getElementById("ordersTable").getElementsByTagName("tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var name = cells[0]; // Name column (index 0)
+
+                if (name) {
+                    var textValue = name.textContent || name.innerText;
+                    if (textValue.toLowerCase().indexOf(filter) > -1) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // JavaScript function to load orders via AJAX
+        function loadOrders() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/admin_orders.py", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("ordersTable").innerHTML = xhr.responseText;
+                } else if (xhr.readyState === 4 && xhr.status === 401) {
+                    window.location.href = 'admin_login.html';
+                }
+            };
+            xhr.send();
+        }
+
+        // Load orders when the page loads
+        window.onload = loadOrders;
+    </script>
+
+</body>
+</html>

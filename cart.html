@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jamal | Shopping Cart</title>    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/cartManager.js"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000;
+            --white: #fff;
+            --dark-gray: #111;
+            --gray: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--dark-gray);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .logo h1 a {
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-decoration: none;
+        }        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+
+        .login-btn {
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+
+        .login-btn:hover {
+            background-color: var(--gold);
+            color: var(--black);
+        }        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-btn {
+            position: relative;
+            color: var(--white);
+            font-size: 20px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .cart-btn:hover {
+            color: var(--gold);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--gold);
+            color: var(--black);
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+        }
+
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            padding: 8px 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .profile-btn:hover {
+            color: var(--gold);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--dark-gray);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border: 1px solid var(--gold);
+        }
+
+        .dropdown-content a {
+            color: var(--white);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--black);
+            color: var(--gold);
+        }
+
+        .profile-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .container {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .cart-empty a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .cart-items {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 2fr 1fr 1fr 1fr auto;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            background-color: var(--dark-gray);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }        .item-name {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .item-price,
+        .item-total {
+            color: var(--white);
+            font-weight: bold;
+        }        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .quantity-btn {
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .quantity-btn:hover {
+            background-color: #e6c555;
+        }
+
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+
+        .decrease-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+        }
+
+        .quantity-display {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 4px;
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid var(--gold);
+        }
+
+        .remove-btn {
+            background-color: #ff4444;
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-summary {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            background-color: #e6c555;
+            transform: translateY(-2px);
+        }
+
+        .checkout-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .checkout-btn i {
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fa-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Copy the modal styles from index.html */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--dark-gray);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--gold);
+            position: relative;
+        }
+
+        .modal-title {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .modal-message {
+            color: var(--white);
+            margin-bottom: 25px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .confirm-btn {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+        }
+
+        .confirm-btn:hover {
+            background: #e6c555;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--white);
+        }
+
+        .cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>    <header>
+        <div class="logo">
+            <h1><a href="index.html">JAMAL</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="cart.html" class="cart-btn" id="cartLink">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <a href="login.html" class="login-btn" id="loginLink">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div id="cartContent">
+            <!-- Cart content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Add the modal HTML -->
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Confirm Logout</h3>
+            <p class="modal-message">Are you sure you want to log out?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+                <button class="modal-btn confirm-btn" onclick="confirmLogout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/cart.js"></script>
+    <script>
+        // Add the logout modal functions
+        function showLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            modal.style.display = 'none';
+        }
+
+        function confirmLogout() {
+            // Clear session storage
+            sessionStorage.clear();
+            localStorage.clear();
+            
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+
+        // Replace the old logout function
+        window.logout = function() {
+            showLogoutModal();
+        };
+
+        // Close modal if clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('logoutModal');
+            if (event.target === modal) {
+                closeLogoutModal();
+            }
+        });
+    </script>
+</body>
+</html>

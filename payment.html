@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jamal | Payment</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="js/cartManager.js"></script>
+    <style>
+      :root {
+        --gold: #d4af37;
+        --black: #000;
+        --white: #fff;
+        --dark-gray: #111;
+        --gray: #aaa;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        background-color: var(--black);
+        color: var(--white);
+        min-height: 100vh;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        background-color: var(--dark-gray);
+        border-bottom: 1px solid var(--gold);
+      }
+
+      .logo h1 {
+        font-size: 28px;
+      }
+
+      .logo h1 a {
+        text-decoration: none;
+        color: var(--gold);
+      }
+
+      .payment-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+      }
+
+      .payment-section {
+        background-color: var(--dark-gray);
+        padding: 30px;
+        border-radius: 8px;
+        border: 1px solid var(--gold);
+      }
+
+      .section-title {
+        color: var(--gold);
+        margin-bottom: 30px;
+        font-size: 24px;
+        text-align: center;
+      }
+
+      .order-summary {
+        background-color: var(--black);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        color: var(--white);
+      }
+
+      .summary-row.total {
+        color: var(--gold);
+        font-weight: bold;
+        font-size: 1.2em;
+        border-top: 1px solid var(--gray);
+        padding-top: 10px;
+        margin-top: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--white);
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--black);
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        color: var(--white);
+        font-size: 16px;
+      }
+
+      .form-group input:focus {
+        border-color: var(--gold);
+        outline: none;
+      }
+
+      .submit-btn {
+        background-color: var(--gold);
+        color: var(--black);
+        padding: 15px 30px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+      }
+
+      .submit-btn:hover {
+        background-color: #e6c555;
+        transform: translateY(-2px);
+      }
+
+      .submit-btn:disabled {
+        background-color: var(--gray);
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .payment-form {
+        display: none;
+      }
+
+      .payment-form.active {
+        display: block;
+      }
+
+      .card-details {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 15px;
+      }
+
+      .bank-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .bank-option {
+        background-color: var(--black);
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .bank-option:hover,
+      .bank-option.selected {
+        border-color: var(--gold);
+        background-color: rgba(212, 175, 55, 0.1);
+      }
+
+      .bank-option img {
+        max-width: 100px;
+        height: auto;
+        margin-bottom: 10px;
+      }
+
+      .ewallet-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .ewallet-option {
+        background-color: var(--black);
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .ewallet-option:hover,
+      .ewallet-option.selected {
+        border-color: var(--gold);
+        background-color: rgba(212, 175, 55, 0.1);
+      }
+
+      .ewallet-option img {
+        max-width: 80px;
+        height: auto;
+        margin-bottom: 10px;
+      }
+
+      .bank-option i, .ewallet-option i {
+        font-size: 24px;
+        color: var(--gold);
+        margin-bottom: 10px;
+      }
+
+      .bank-option p, .ewallet-option p {
+        color: var(--white);
+        margin: 0;
+        font-size: 14px;
+      }
+
+      .bank-option:hover i, .bank-option.selected i,
+      .ewallet-option:hover i, .ewallet-option.selected i {
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1><a href="index.html">JAMAL</a></h1>
+      </div>
+    </header>
+
+    <div class="payment-container">
+      <div class="payment-section">
+        <h2 class="section-title">Payment</h2>
+        
+        <div class="order-summary">
+          <div class="summary-row">
+            <span>Total Amount</span>
+            <span id="total">RM 0.00</span>
+          </div>
+        </div>
+
+        <!-- Credit Card Payment -->
+        <div id="creditCardPayment" class="payment-method">
+          <form id="creditCardForm">
+            <div class="form-group">
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="card-details">
+              <div class="form-group">
+                <label for="cardName">Cardholder Name</label>
+                <input type="text" id="cardName" name="cardName" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+              </div>
+            </div>
+            <button type="submit" class="submit-btn">Pay Now</button>
+          </form>
+        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get order data from session storage
+            const orderData = JSON.parse(sessionStorage.getItem('orderData'));
+            console.log('Order data:', orderData);
+
+            if (!orderData) {
+                console.error('No order data found');
+                window.location.href = 'checkout.html';
+                return;
+            }
+
+            // Check if this is a credit card payment
+            if (orderData.paymentMethod !== 'credit_card') {
+                console.error('Invalid payment method:', orderData.paymentMethod);
+                window.location.href = 'checkout.html';
+                return;
+            }
+
+            // Display order total
+            const totalElement = document.getElementById('total');
+            if (totalElement) {
+                const total = orderData.total || 0;
+                totalElement.textContent = `RM ${total.toFixed(2)}`;
+            }
+
+            // Format card number input
+            const cardNumberInput = document.getElementById('cardNumber');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formattedValue = '';
+                    for (let i = 0; i < value.length; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formattedValue += ' ';
+                        }
+                        formattedValue += value[i];
+                    }
+                    e.target.value = formattedValue;
+                });
+            }
+
+            // Format expiry date input
+            const expiryDateInput = document.getElementById('expiryDate');
+            if (expiryDateInput) {
+                expiryDateInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Handle form submission
+            const creditCardForm = document.getElementById('creditCardForm');
+            if (creditCardForm) {
+                creditCardForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Processing credit card payment...');
+
+                    const submitBtn = this.querySelector('.submit-btn');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Processing...';
+
+                    // Store payment data in session storage
+                    const paymentData = {
+                        method: 'credit_card',
+                        cardNumber: cardNumberInput.value.replace(/\s/g, ''),
+                        cardName: document.getElementById('cardName').value,
+                        expiryDate: expiryDateInput.value,
+                        username: JSON.parse(sessionStorage.getItem('user')).username,
+                        email: JSON.parse(sessionStorage.getItem('user')).email,
+                        items: orderData.items || [],
+                        subtotal: orderData.subtotal || 0,
+                        shipping: orderData.shipping || 0,
+                        total: orderData.total || 0,
+                        timestamp: new Date().toISOString()
+                    };
+                    console.log('Storing payment data:', paymentData);
+                    sessionStorage.setItem('paymentData', JSON.stringify(paymentData));
+
+                    // Simulate payment processing
+                    setTimeout(() => {
+                        window.location.href = 'receipt.html';
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+  </body>
+</html>

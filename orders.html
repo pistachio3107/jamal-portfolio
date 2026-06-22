@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jamal | Order History</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="js/cartManager.js"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000;
+            --white: #fff;
+            --dark-gray: #111;
+            --gray: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--dark-gray);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .logo h1 {
+            font-size: 28px;
+        }
+
+        .menu-bar {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .menu-item {
+            color: var(--white);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .menu-item:hover {
+            color: var(--gold);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .orders-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            color: var(--gold);
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background-color: var(--dark-gray);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .order-date {
+            color: var(--gray);
+        }
+
+        .order-id {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .order-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .order-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            gap: 20px;
+            padding: 10px;
+            background-color: var(--black);
+            border-radius: 4px;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background-color: var(--dark-gray);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        .item-name {
+            font-weight: bold;
+        }
+
+        .item-quantity {
+            color: var(--gray);
+        }
+
+        .item-price {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray);
+            font-size: 1.2em;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1><a href="index.html" style="text-decoration: none; color: var(--gold)">JAMAL</a></h1>
+        </div>
+        <nav class="menu-bar">
+            <a href="index.html" class="menu-item"><i class="fas fa-home"></i> Home</a>
+            <a href="cart.html" class="menu-item"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="profile.html" class="menu-item"><i class="fas fa-user"></i> Profile</a>
+        </nav>
+    </header>
+
+    <div class="orders-container">
+        <h2 class="section-title">Order History</h2>
+        <div id="orderList" class="order-list">
+            <!-- Orders will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script src="js/orders.js"></script>
+</body>
+</html>

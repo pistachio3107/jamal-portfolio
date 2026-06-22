@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jamal | E-Wallet Payment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="js/cartManager.js"></script>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000;
+            --white: #fff;
+            --dark-gray: #111;
+            --gray: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--dark-gray);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .logo h1 {
+            font-size: 28px;
+        }
+
+        .payment-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .payment-section {
+            background-color: var(--dark-gray);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+        }
+
+        .section-title {
+            color: var(--gold);
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .order-summary {
+            background-color: var(--black);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .summary-row.total {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.2em;
+            border-top: 1px solid var(--gray);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .wallet-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .wallet-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--black);
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-option:hover {
+            border-color: var(--gold);
+        }
+
+        .wallet-option.active {
+            border-color: var(--gold);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .wallet-option i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--gold);
+        }
+
+        .wallet-option span {
+            font-size: 16px;
+            color: var(--white);
+        }
+
+        .submit-btn {
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #e6c555;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1><a href="index.html" style="text-decoration: none; color: var(--gold)">JAMAL</a></h1>
+        </div>
+    </header>
+
+    <div class="payment-container">
+        <div class="payment-section">
+            <h2 class="section-title">E-Wallet Payment</h2>
+            
+            <div class="order-summary">
+                <div class="summary-row">
+                    <span>Total Amount</span>
+                    <span id="total">RM 0.00</span>
+                </div>
+            </div>
+
+            <form id="eWalletForm">
+                <div class="wallet-options">
+                    <div class="wallet-option" data-wallet="tng">
+                        <i class="fas fa-wallet"></i>
+                        <span>Touch 'n Go</span>
+                    </div>
+                    <div class="wallet-option" data-wallet="grabpay">
+                        <i class="fas fa-wallet"></i>
+                        <span>GrabPay</span>
+                    </div>
+                    <div class="wallet-option" data-wallet="boost">
+                        <i class="fas fa-wallet"></i>
+                        <span>Boost</span>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn" disabled>Confirm Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get order data from session storage
+            const orderData = JSON.parse(sessionStorage.getItem('orderData'));
+            console.log('Order data:', orderData);
+
+            if (!orderData) {
+                console.error('No order data found');
+                window.location.href = 'checkout.html';
+                return;
+            }
+
+            // Display order total
+            const totalElement = document.getElementById('total');
+            if (totalElement) {
+                const total = orderData.total || 0;
+                totalElement.textContent = `RM ${total.toFixed(2)}`;
+            }
+
+            // Handle wallet selection
+            const walletOptions = document.querySelectorAll('.wallet-option');
+            const submitBtn = document.querySelector('.submit-btn');
+            let selectedWallet = null;
+
+            walletOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    walletOptions.forEach(opt => opt.classList.remove('active'));
+                    // Add active class to selected option
+                    this.classList.add('active');
+                    // Store selected wallet
+                    selectedWallet = this.getAttribute('data-wallet');
+                    // Enable submit button
+                    submitBtn.disabled = false;
+                });
+            });
+
+            // Handle form submission
+            const eWalletForm = document.getElementById('eWalletForm');
+            eWalletForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Processing e-wallet payment...');
+
+                if (!selectedWallet) {
+                    alert('Please select an e-wallet');
+                    return;
+                }
+
+                // Disable submit button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+
+                // Store payment data in session storage
+                const paymentData = {
+                    method: 'e_wallet',
+                    wallet: selectedWallet,
+                    username: JSON.parse(sessionStorage.getItem('user')).username,
+                    email: JSON.parse(sessionStorage.getItem('user')).email,
+                    items: orderData.items || [],
+                    subtotal: orderData.subtotal || 0,
+                    shipping: orderData.shipping || 0,
+                    total: orderData.total || 0,
+                    timestamp: new Date().toISOString()
+                };
+                console.log('Storing payment data:', paymentData);
+                sessionStorage.setItem('paymentData', JSON.stringify(paymentData));
+
+                // Simulate payment processing
+                setTimeout(() => {
+                    window.location.href = 'receipt.html';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html> 

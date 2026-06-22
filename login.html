@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jamal | Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #d4af37;
+      --black: #000;
+      --white: #fff;
+      --dark-gray: #111;
+      --gray: #aaa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('Images/jamal hitam.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(17, 17, 17, 0.95);
+      border-bottom: 1px solid var(--gold);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      margin-right: 30px;
+    }
+
+    nav ul li a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      color: var(--gold);
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .cart-btn {
+      position: relative;
+      color: var(--white);
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.3s;
+    }
+
+    .cart-btn:hover {
+      color: var(--gold);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: var(--gold);
+      color: var(--black);
+      font-size: 12px;
+      font-weight: bold;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+    }
+
+    .login-btn {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .login-btn:hover {
+      color: var(--gold);
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .auth-container {
+      background-color: rgba(17, 17, 17, 0.95);
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--gold);
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      color: var(--gray);
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .tab.active {
+      color: var(--gold);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--gold);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gray);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(170, 170, 170, 0.2);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--gold);
+      color: var(--black);
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn:hover {
+      background-color: #e6c555;
+      transform: translateY(-2px);
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    .error-message {
+      background-color: rgba(255, 68, 68, 0.1);
+      color: #ff4444;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .form-footer a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .social-login {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .social-login p {
+      color: var(--gray);
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .social-login p::before,
+    .social-login p::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background-color: rgba(170, 170, 170, 0.2);
+    }
+
+    .social-login p::before {
+      left: 0;
+    }
+
+    .social-login p::after {
+      right: 0;
+    }
+
+    .social-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(170, 170, 170, 0.2);
+      background-color: transparent;
+      color: var(--white);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .demo-card {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+      padding: 1rem;
+    }
+
+    .demo-card strong { color: var(--gold); }
+    .demo-fill { margin-top: 0.75rem; padding: 0.65rem; }
+    button:disabled { cursor: not-allowed; opacity: 0.45; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>JAMAL</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+      </ul>
+      <div class="nav-buttons">
+        <a href="cart.html" class="cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+        <a href="login.html" class="login-btn" id="loginLink">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="auth-container">
+      <div class="tabs">
+        <button class="tab active" data-tab="login">Login</button>
+        <button class="tab" data-tab="signup">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="form active">
+        <div class="error-message" id="loginError"></div>
+        <div class="demo-card">
+          <strong>Portfolio Demo Account</strong><br>
+          Username: <code>demo</code><br>
+          Password: <code>Demo123!</code>
+          <button type="button" class="btn demo-fill" id="useDemoAccount">Use Demo Account</button>
+        </div>
+        <div class="form-group">
+          <label for="loginUsername">Username</label>
+          <input type="text" id="loginUsername" required autocomplete="username" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required autocomplete="current-password" placeholder="Enter your password">
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <form id="signupForm" class="form">
+        <div class="error-message" id="signupError"></div>
+        <div class="demo-card"><strong>Read-only portfolio demo</strong><br>New account registration is disabled.</div>
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" disabled autocomplete="email" placeholder="Registration disabled">
+        </div>
+        <div class="form-group">
+          <label for="signupUsername">Username</label>
+          <input type="text" id="signupUsername" disabled autocomplete="username" placeholder="Registration disabled">
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" disabled autocomplete="new-password" placeholder="Registration disabled">
+        </div>
+        <button type="submit" class="btn" disabled>Create Account</button>
+        <div class="form-footer">
+          Already have an account? <a href="#" class="switch-to-login">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.tab');
+      const forms = document.querySelectorAll('.form');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const switchToLogin = document.querySelector('.switch-to-login');
+      const useDemoAccount = document.getElementById('useDemoAccount');
+
+      useDemoAccount.addEventListener('click', () => {
+        document.getElementById('loginUsername').value = 'demo';
+        document.getElementById('loginPassword').value = 'Demo123!';
+      });
+
+      // Tab switching
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.getAttribute('data-tab');
+          
+          // Update tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          // Update forms
+          forms.forEach(form => {
+            form.classList.remove('active');
+            if (form.id === target + 'Form') {
+              form.classList.add('active');
+            }
+          });
+        });
+      });
+
+      // Switch to login from signup footer
+      switchToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        tabs[0].click();
+      });
+
+      // Form submissions
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        const formData = new FormData();
+        formData.append('action', 'login');
+        formData.append('username', username);
+        formData.append('password', password);
+
+        console.log('Sending login request:', {
+            username: username,
+            password: '***' // masked for security
+        });
+
+        fetch('login.py', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Failed to parse response:', text);
+                    throw new Error('Invalid server response');
+                }
+            });
+        })
+        .then(data => {
+            console.log('Login response:', data);
+            if (data.message === "success") {
+                const userData = {
+                    username: data.username,
+                    email: data.email,
+                    isLoggedIn: true
+                };
+                sessionStorage.setItem('user', JSON.stringify(userData));
+                window.location.href = 'index.html';
+            } else {
+                const errorDiv = document.getElementById('loginError');
+                errorDiv.textContent = data.error || 'Login failed';
+                errorDiv.classList.add('show');
+            }
+        })
+        .catch(error => {
+            console.error('Login error details:', error);
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.textContent = `Login error: ${error.message}`;
+            errorDiv.classList.add('show');
+        });
+      });
+
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('signupUsername').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        
+        const formData = new FormData();
+        formData.append('action', 'signup');
+        formData.append('username', username);
+        formData.append('email', email);
+        formData.append('password', password);
+
+        console.log('Sending signup request:', {
+            username: username,
+            email: email,
+            password: '***' // masked for security
+        });
+
+        fetch('login.py', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Failed to parse response:', text);
+                    throw new Error('Invalid server response');
+                }
+            });
+        })
+        .then(data => {
+            console.log('Signup response:', data);
+            if (data.message === "success") {
+                // Show success message and redirect to login
+                const errorDiv = document.getElementById('signupError');
+                errorDiv.textContent = 'Account created successfully! Redirecting to login...';
+                errorDiv.style.backgroundColor = 'rgba(0, 200, 83, 0.1)';
+                errorDiv.style.color = '#00c853';
+                errorDiv.classList.add('show');
+                
+                // Clear the form
+                signupForm.reset();
+                
+                // Redirect to login after a short delay
+                setTimeout(() => {
+                    tabs[0].click(); // Switch to login tab
+                }, 2000);
+            } else {
+                const errorDiv = document.getElementById('signupError');
+                errorDiv.textContent = data.error || 'Signup failed';
+                errorDiv.classList.add('show');
+            }
+        })
+        .catch(error => {
+            console.error('Signup error details:', error);
+            const errorDiv = document.getElementById('signupError');
+            errorDiv.textContent = `Signup error: ${error.message}`;
+            errorDiv.classList.add('show');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #000;
+            --white: #fff;
+            --dark-gray: #111;
+            --gray: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            background: var(--dark-gray);
+            color: var(--white);
+            padding: 0;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Combined Header and Menubar */
+        header {
+            display: flex;
+            justify-content: space-between;  /* Aligns logo and buttons */
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--dark-gray);
+            border-bottom: 3px solid var(--gold);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Logo styling */
+        .logo h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* Menubar (Products, Orders, and Logout buttons) styling */
+        .menubar {
+            display: flex;
+            gap: 1rem;  /* Space between the buttons */
+        }
+
+        .menubar button {
+            background: var(--gold);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            color: var(--black);
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 150px;
+            text-align: center;
+        }
+
+        .menubar button:hover {
+            background: var(--black);
+            color: var(--gold);
+        }
+
+        /* Adjusting content below the header */
+        .content {
+            padding: 5rem 2rem 2rem 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        /* Container for the image */
+        .image-container {
+            width: 100%;
+            height: auto;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        #welcomeImage {
+            max-width: 80%;  /* Reduce the width of the image */
+            height: auto;
+            object-fit: contain; /* Ensure the image fits properly */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Combined Header and Menubar -->
+    <header>
+        <!-- Logo -->
+        <div class="logo">
+            <h1>JAMAL</h1> <!-- The logo will be here -->
+        </div>
+
+        <!-- Menubar with Products, Orders, and Logout buttons -->
+        <div class="menubar">
+            <button id="productsBtn">Products</button>
+            <button id="ordersBtn">Orders</button>
+            <button id="logoutBtn">Logout</button> <!-- New Logout Button -->
+        </div>
+    </header>
+
+    <!-- Image container with rescaling and adjusted size -->
+    <div class="image-container">
+        <img id="welcomeImage" src="images/jamal poster copy.png" alt="Jamal Poster">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Welcome to Jamal Admin Dashboard</h1>
+    </div>
+
+    <script>
+        // Inline JavaScript to handle navigation and logout functionality
+        document.getElementById('productsBtn').addEventListener('click', () => {
+            window.location.href = 'admin_products.html';  // Redirect to Products page
+        });
+
+        document.getElementById('ordersBtn').addEventListener('click', () => {
+            window.location.href = 'admin_orders.html';  // Redirect to Orders page
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.location.href = '/admin_logout';
+        });
+    </script>
+
+</body>
+</html>

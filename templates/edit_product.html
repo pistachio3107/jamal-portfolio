@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Product - Admin</title>
+  <style>
+    :root { --gold: #d4af37; --black: #000; --white: #fff; --dark-gray: #111; --gray: #aaa; }
+    * { box-sizing: border-box; font-family: sans-serif; }
+    body { background: var(--dark-gray); color: var(--white); margin: 0; }
+    .menubar { background: var(--black); padding: 1rem; }
+    .menubar a, input[type="submit"] { background: var(--gold); border: 0; border-radius: 4px; color: var(--black); cursor: pointer; display: inline-block; margin-right: 1rem; padding: 1rem 2rem; text-decoration: none; }
+    .content { padding: 3rem 2rem; text-align: center; }
+    h1 { color: var(--gold); }
+    form { background: var(--black); border-radius: 5px; margin: 0 auto; max-width: 560px; padding: 2rem; text-align: left; }
+    label { display: block; margin: 1rem 0 .5rem; }
+    input[type="text"], input[type="number"], input[type="file"] { background: var(--dark-gray); border: 1px solid var(--gray); color: var(--white); padding: .75rem; width: 100%; }
+    input[type="submit"] { margin-top: 1.5rem; width: 100%; }
+  </style>
+</head>
+<body>
+  <nav class="menubar">
+    <a href="admin_dashboard.html">Dashboard</a>
+    <a href="admin_orders.html">Orders</a>
+  </nav>
+  <main class="content">
+    <h1>Edit Product</h1>
+    <form action="{{ url_for('edit_product', id=product.id) }}" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" value="{{ product.name }}" required>
+      <label for="category">Category</label>
+      <input id="category" name="category" type="text" value="{{ product.category }}" required>
+      <label for="price">Price</label>
+      <input id="price" name="price" type="number" min="0" step="0.01" value="{{ product.price }}" required>
+      <label for="quantity">Quantity</label>
+      <input id="quantity" name="quantity" type="number" min="0" value="{{ product.quantity }}" required>
+      <label for="image">Replacement image (optional)</label>
+      <input id="image" name="image" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+      <input type="submit" value="Update Product">
+    </form>
+  </main>
+</body>
+</html>
